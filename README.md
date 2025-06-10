@@ -1,85 +1,50 @@
 # Aiogram Bot Template
 
-This repository provides a **ready-to-use** template for building Telegram bots with [Aiogram](https://docs.aiogram.dev/) and [SQLAlchemy](https://docs.sqlalchemy.org/) for database management. It supports **PostgreSQL** and **SQLite** out of the box, and includes a **Docker** and **docker-compose** setup for convenient deployment.
+This repository provides a minimal structure for creating Telegram bots with [Aiogram](https://docs.aiogram.dev/) and SQLAlchemy.  It includes basic database helpers and an example configuration file.
 
----
+## Getting Started
 
-## Table of Contents
+1. **Create a virtual environment** and install the dependencies:
 
-1. [Project Structure](#project-structure)
-2. [Prerequisites](#prerequisites)
-3. [Installation](#installation)
-4. [Configuration](#configuration)
-5. [Database Connections](#database-connections)
-    - [PostgreSQL (`postgres.py`)](#postgres.py)
-    - [SQLite (`sqlite.py`)](#sqlite.py)
-6. [Running Migrations](#running-migrations)
-7. [Running the Bot Locally](#running-the-bot-locally)
-8. [Logging](#logging)
-9. [Using Docker](#using-docker)
-    - [Dockerfile](#dockerfile)
-    - [docker-compose](#docker-compose)
-10. [Folder Details](#folder-details)
-11. [License](#license)
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
----
+2. **Configure environment variables.**  Copy `example.env` to `.env` and update the values inside.
+
+3. **Run the bot**:
+
+```bash
+python app/server/server.py
+```
 
 ## Project Structure
 
 ```plaintext
-.
-├── Dockerfile
-├── README.md
-├── alembic.ini
-├── app
-│   ├── __init__.py
-│   ├── bot
-│   │   ├── __init__.py
-│   │   ├── constants
-│   │   │   └── __init__.py
-│   │   ├── extensions
-│   │   │   └── __init__.py
-│   │   ├── filters
-│   │   │   └── __init__.py
-│   │   ├── handlers
-│   │   │   └── __init__.py
-│   │   ├── keyboards
-│   │   │   └── __init__.py
-│   │   ├── middlewares
-│   │   │   └── __init__.py
-│   │   ├── models
-│   │   │   └── __init__.py
-│   │   ├── routers
-│   │   │   └── __init__.py
-│   │   └── state
-│   │       └── __init__.py
-│   ├── core
-│   │   ├── __init__.py
-│   │   ├── constants
-│   │   │   └── __init__.py
-│   │   ├── databases
-│   │   │   ├── __init__.py
-│   │   │   ├── postgres.py
-│   │   │   └── sqlite.py
-│   │   ├── models
-│   │   │   ├── __init__.py
-│   │   │   ├── base.py
-│   │   │   └── users.py
-│   │   └── settings
-│   │       ├── __init__.py
-│   │       └── config.py
-│   └── server
-│       ├── __init__.py
-│       └── server.py
-├── docker-compose.yml
-├── entrypoint.sh
-├── example.env
-├── media
-│   └── all_mdiea_files.jpg
-├── migrations
-│   ├── README
-│   ├── env.py
-│   ├── script.py.mako
-│   └── versions
-├── requirements.txt
-└── venv
+app/
+├── bot/            # place handlers, routers and other bot modules here
+├── core/           # settings and database helpers
+│   ├── databases/
+│   │   ├── postgres.py  # async PostgreSQL session
+│   │   └── sqlite.py    # async SQLite session
+│   └── settings/
+│       └── config.py    # pydantic settings
+└── server/
+    └── server.py   # application entry point
+migrations/         # Alembic migration scripts
+entrypoint.sh       # helper script to start the bot
+example.env         # template environment variables
+requirements.txt    # project dependencies
+```
+
+### Database Connections
+- **`postgres.py`** – creates an async SQLAlchemy engine for PostgreSQL.
+- **`sqlite.py`** – creates an async SQLAlchemy engine for SQLite.
+
+### Why this template?
+This layout separates bot logic from configuration and database layers so you can quickly start building any type of bot.  The provided scripts give ready-made session factories and settings management using Pydantic.
+
+## License
+MIT
