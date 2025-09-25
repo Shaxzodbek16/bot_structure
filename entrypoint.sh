@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC2155
 export PYTHONPATH="$(pwd)"
 
-python app/server/server.py
+python app/server/main.py
