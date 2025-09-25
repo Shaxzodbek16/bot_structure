@@ -3,7 +3,6 @@ aiogram==3.22.0
 aiohappyeyeballs==2.6.1
 aiohttp==3.12.15
 aiosignal==1.4.0
-aiosqlite==0.21.0
 alembic==1.16.5
 annotated-types==0.7.0
 asyncpg==0.30.0
