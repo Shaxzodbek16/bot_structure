@@ -3,9 +3,7 @@ from app.core.settings.config import get_settings
 
 settings = get_settings()
 
-DATABASE_URL = f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DATABASE}"
-
-engine = create_async_engine("postgresql+asyncpg://" + DATABASE_URL, echo=False)
+engine = create_async_engine("postgresql+asyncpg://" + settings.GET_POSTGRES_URL, echo=False)
 
 async_session_factory = async_sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
