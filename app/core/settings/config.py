@@ -1,8 +1,11 @@
 from functools import cache
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    DEBUG: bool = False
     BOT_TOKEN: str = "bot_token"
 
     POSTGRES_USER: str = "postgres"
@@ -13,26 +16,26 @@ class Settings(BaseSettings):
 
     ADMINS: str = "123456"
 
-    # If you use sqlite, you can use this:
-    SQLITE_DATABASE_NAME: str = "db.sqlite3"
-
     model_config = SettingsConfigDict(env_file=".env")
 
     @property
-    def admins(self):
+    def GET_ADMINS(self) -> list[int]:
         admins = []
         for admin in self.ADMINS.split(","):
             admin = admin.strip()
-            admins.append(int(admin))
+            try:
+                admins.append(int(admin))
+            except ValueError:
+                continue
         return admins
 
     @property
-    def get_postgres_url(self):
+    def GET_POSTGRES_URL(self):
         return f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DATABASE}"
 
     @property
-    def get_sqlite_url(self):
-        return str(self.SQLITE_DATABASE_NAME)
+    def BASE_DIRECTORY(self) -> Path:
+        return Path(__file__).parent.parent.parent.parent
 
 
 @cache
